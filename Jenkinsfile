@@ -8,9 +8,15 @@ pipeline {
             }
         }
 
-        stage('List SQL files') {
+        stage('Init DB') {
+            agent {
+                docker {
+                    image 'mariadb:11'
+                    args '--network tp-net'
+                }
+            }
             steps {
-                sh 'ls -la *.sql'
+                sh 'mariadb -h mariadb-server -uroot -p1234 < init-db.sql'
             }
         }
     }
