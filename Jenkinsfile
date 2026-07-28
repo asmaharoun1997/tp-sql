@@ -28,7 +28,7 @@ pipeline {
             agent any
             steps {
                 sh 'docker rm -f $DB_CONTAINER || true'
-                sh 'docker run -d --name $DB_CONTAINER --network $NETWORK_NAME -e MARIADB_ROOT_PASSWORD=$DB_PASSWORD mariadb:11'
+                sh 'docker run -d --name $DB_CONTAINER  -e MARIADB_ROOT_PASSWORD=$DB_PASSWORD mariadb:11'
                 sh 'sleep 10'
             }
         }
