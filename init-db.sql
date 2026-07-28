@@ -1,3 +1,9 @@
-create database geoDB;
+CREATE DATABASE IF NOT EXISTS geoDB;
+
 USE geoDB;
-create table departement (num int, nom varchar , prefecture varchar) 
+
+CREATE TABLE IF NOT EXISTS departement (
+    num INT PRIMARY KEY,
+    nom VARCHAR(100) NOT NULL,
+    prefecture VARCHAR(100) NOT NULL
+);
