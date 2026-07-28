@@ -27,7 +27,6 @@ pipeline {
         stage('Start MariaDB') {
             agent any
             steps {
-                sh 'docker network create $NETWORK_NAME || true'
                 sh 'docker rm -f $DB_CONTAINER || true'
                 sh 'docker run -d --name $DB_CONTAINER --network $NETWORK_NAME -e MARIADB_ROOT_PASSWORD=$DB_PASSWORD mariadb:11'
                 sh 'sleep 10'
@@ -50,7 +49,6 @@ pipeline {
             agent {
                 docker {
                     image 'mariadb:11'
-                    args "--network $NETWORK_NAME"
                 }
             }
             steps {
@@ -62,7 +60,6 @@ pipeline {
             agent {
                 docker {
                     image 'mariadb:11'
-                    args "--network $NETWORK_NAME"
                 }
             }
             steps {
@@ -80,7 +77,7 @@ pipeline {
         stage('Push sur Docker Hub') {
             agent any
             environment {
-                DOCKERHUB_CREDENTIALS = credentials('dockerhub-creds')
+                DOCKERHUB_CREDENTIALS = credentials('dockerhub-sql')
             }
             steps {
                 sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
